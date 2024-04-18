@@ -6,3 +6,10 @@ NIM - NAMA <br>
 42230038 - I Gusti Nathan Agung Tanaka (anggota) <br>
 42230045 - I Gusti Ngurah Abi Praja Andika (anggota) <br>
 42230046 - Dimas Rangga Marshandika (anggota) <br>
+
+<h1>Jobdesc</h1>
+
+Dewa Kadek ( Leader )
+<ul>
+  <li>Memastikan anggota memahami dan juga berkontribusi terhadap repository HCI</li>
+</ul>
