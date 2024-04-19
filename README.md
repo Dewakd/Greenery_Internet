@@ -4,3 +4,4 @@ NIM - NAMA <br>
 42230052 - I Nyoman Rizky Anggika (leader) <br>
 42230016 - Putu Wahyu Wardaya (Anggota) <br>
 42230011 - Ezekiel Griffin Dave (Anggota) <br>
+42230020 - Denilson Redentor Antonio Dos Santos Freitas (Anggota) <br>
