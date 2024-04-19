@@ -47,3 +47,23 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
 
 }
+
+
+void reconnect() {
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (client.connect("Aditya123555777")) {
+      Serial.println("connected");
+      // Once connected, subscribe to the topic you wish to receive messages on
+      client.subscribe("undiknas/FTI/TI/2022/IoT/Aditya/#");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
+}
