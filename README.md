@@ -1,1 +1,4 @@
 Greenery Internet atau Greenet adalah proyek IoT (Internet of Things) inovatif yang berfokus pada promosi kehijauan dan keberlanjutan lingkungan. Platform kami menyediakan solusi komprehensif untuk memantau dan mengelola kehijauan menggunakan sensor pintar dan teknologi otomatisasi.
+
+NIM - NAMA <br>
+42230052 - I Nyoman Rizky Anggika (leader) <br>
