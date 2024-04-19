@@ -4,5 +4,5 @@ NIM - NAMA <br>
 42230052 - I Nyoman Rizky Anggika - Ahli Lingkungan - (leader) <br>
 42230016 - Putu Wahyu Wardaya (Anggota) + CTO <br>
 42230011 - Ezekiel Griffin Dave - Peneliti Mikroklas (Anggota) <br>
-42230020 - Denilson Redentor Antonio Dos Santos Freitas (Anggota) <br>
-42230023 - I Gde Dhipa Pradnyana (anggota) <br>
+42230020 - Denilson Redentor Antonio Dos Santos Freitas -  ahli teknis - (Anggota) <br>
+42230023 - I Gde Dhipa Pradnyana (anggota) - spesialis analisis data - <br>
