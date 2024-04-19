@@ -1,18 +1,29 @@
-#include <Arduino.h>
+#include <WiFi.h>
+#include <PubSubClient.h>
 
-// put function declarations here:
-int myFunction(int, int);
+const char* ssid = "UDAWA";
+const char* password = "defaultkey";
+const char* mqtt_server = "broker.hivemq.com"; // Change this to the address of your MQTT broker
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
-}
+WiFiClient espClient;
+PubSubClient client(espClient);
 
-void loop() {
-  // put your main code here, to run repeatedly:
-}
+void setup_wifi() {
+  delay(10);
+  // We start by connecting to a WiFi network
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
 }
