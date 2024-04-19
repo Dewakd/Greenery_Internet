@@ -80,3 +80,11 @@ void setup() {
   }
 
 }
+
+void loop() {
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+  // Other loop code goes here
+}
