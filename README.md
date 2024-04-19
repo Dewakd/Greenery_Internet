@@ -3,3 +3,4 @@ Greenery Internet atau Greenet adalah proyek IoT (Internet of Things) inovatif y
 NIM - NAMA <br>
 42230052 - I Nyoman Rizky Anggika (leader) <br>
 42230016 - Putu Wahyu Wardaya (Anggota) <br>
+42230011 - Ezekiel Griffin Dave (Anggota) <br>
