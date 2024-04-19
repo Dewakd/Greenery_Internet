@@ -5,3 +5,4 @@ NIM - NAMA <br>
 42230016 - Putu Wahyu Wardaya (Anggota) + CTO <br>
 42230011 - Ezekiel Griffin Dave (Anggota) <br>
 42230020 - Denilson Redentor Antonio Dos Santos Freitas (Anggota) <br>
+42230023 - I Gde Dhipa Pradnyana (anggota) <br>
