@@ -2,7 +2,7 @@
 
 Wahyu Benartdo Sembiring - 42230050
 
-Made Wahyu Sudharma 42230049
+Made Wahyu Sudharma - 42230049
 
 I Putu Ngurah Rio Aditya Pratama - 42230030
 
