@@ -75,3 +75,13 @@ void setup() {
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 }
+
+
+
+void loop() {
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+  // Other loop code goes here
+}
