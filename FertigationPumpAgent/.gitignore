@@ -8,4 +8,4 @@
 platformio.ini
 *.log
 **/*.log
-extensions.json
+extensions.json  
