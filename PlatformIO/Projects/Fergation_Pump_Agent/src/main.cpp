@@ -9,7 +9,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.println();
 
   String topics = String(topic);
-  if(topics == "undiknas/FTI/TI/2022/IoT/Aditya/lampu") {
+  if(topics == "undiknas/FTI/TI/2022/IoT/Aditya/lampu"){
     if(payload[0] == 1 ){
       Serial.println("Nyalakan Lampu...");
     }
@@ -17,4 +17,5 @@ void callback(char* topic, byte* payload, unsigned int length) {
       Serial.println("Matikan Lampu...");
     }
   }
+
 }
