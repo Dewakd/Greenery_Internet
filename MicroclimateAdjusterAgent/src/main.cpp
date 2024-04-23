@@ -1,9 +1,6 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
-
-const char* ssid = "UDAWA";
-const char* password = "defaultkey";
-const char* mqtt_server = "broker.hivemq.com"; // Change this to the address of your MQTT broker
+#include "secret.h"
 
 WiFiClient espClient;
 PubSubClient client(espClient);
