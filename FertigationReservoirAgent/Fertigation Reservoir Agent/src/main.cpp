@@ -23,3 +23,45 @@ void syncSlider(uint8_t sliderId);
 uint8_t pinLed[3] = {25, 33, 32}; // hijau, biru, merah
 bool ledState[3] = {false, false, false};
 uint8_t ledBrightness[3] = {0, 0, 0};
+
+
+uint8_t pinLed[3] = {25, 33, 32}; // hijau, biru, merah
+bool ledState[3] = {false, false, false};
+uint8_t ledBrightness[3] = {0, 0, 0};
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(115200);
+
+  for(int i = 0; i < 3; i++){
+    pinMode(pinLed[i], OUTPUT);
+  }
+
+  if(!LittleFS.begin(true)){
+    Serial.println("An Error has occurred while mounting SPIFFS");
+    return;
+  }
+
+  WiFi.onEvent(onWiFiConnected, ARDUINO_EVENT_WIFI_STA_CONNECTED);
+  WiFi.onEvent(onWiFiDisconnected, ARDUINO_EVENT_WIFI_STA_DISCONNECTED);
+  WiFi.onEvent(onWiFiGotIP, ARDUINO_EVENT_WIFI_STA_GOT_IP);
+  myWiFi.addAP(ssid, pass);
+  
+  /*myWeb.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+      request->send(200, "text/plain", "Hello, world");
+  });*/
+
+  myWeb.serveStatic("/", LittleFS, "/www/").setDefaultFile("index.html");
+
+  while (myWiFi.run() != WL_CONNECTED){
+    Serial.print(".");
+    delay(100);
+  }
+
+  myWeb.begin();
+  myWs.onEvent(onWsEvent);
+  myWeb.addHandler(&myWs);
+}
+
+unsigned long SCHEDULER_WS_ROUTINE = 0;
+unsigned long SCHEDULER_EXECUTE_ROUTINE = 0;
