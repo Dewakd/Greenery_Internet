@@ -1,13 +1,8 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <WiFiMulti.h>
-#include <AsyncTCP.h>
-#include <ESPAsyncWebServer.h>
 #include "LittleFS.h"
-#include <ArduinoJson.h>
 
-const char* ssid = "LAB TI";
-const char* pass = "#tiundiknas";
 
 WiFiMulti myWiFi;
 AsyncWebServer myWeb(80);
