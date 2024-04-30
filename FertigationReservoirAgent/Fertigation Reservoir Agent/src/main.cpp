@@ -1,67 +1,54 @@
 #include <Arduino.h>
-#include <WiFi.h>
-#include <WiFiMulti.h>
-#include "LittleFS.h"
+#include <MQTT.h>
+#include <UrusanWiFi.h>
+#include <UrusanIoT.h>
+#include "secret.h"
+#include <TaskScheduler.h>
 
+void penangkapPesan(String topic, String message);
+void task1DetailTugas();
 
-WiFiMulti myWiFi;
-AsyncWebServer myWeb(80);
-AsyncWebSocket myWs("/ws");
+UrusanWiFi urusanWiFi(ssid, pass);
+UrusanIoT urusanIoT(broker, port, id, brokerUsername, brokerPassword);
+Scheduler penjadwal;
 
-// put function declarations here:
-int myFunction(int, int);
-
-void onWiFiConnected(WiFiEvent_t event, WiFiEventInfo_t info);
-void onWiFiDisconnected(WiFiEvent_t event, WiFiEventInfo_t info);
-void onWiFiGotIP(WiFiEvent_t event, WiFiEventInfo_t info);
-void onWsEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len);
-void setSwitch(uint8_t switchId);
-void sendData(StaticJsonDocument<512> &doc);
-void setLedBrightness(uint8_t channel, uint8_t pinLed, uint8_t brightness);
-void syncSlider(uint8_t sliderId);
-
-uint8_t pinLed[3] = {25, 33, 32}; // hijau, biru, merah
-bool ledState[3] = {false, false, false};
-uint8_t ledBrightness[3] = {0, 0, 0};
-
-
-uint8_t pinLed[3] = {25, 33, 32}; // hijau, biru, merah
-bool ledState[3] = {false, false, false};
-uint8_t ledBrightness[3] = {0, 0, 0};
+Task task1(3000, TASK_FOREVER, &task1DetailTugas);
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
 
-  for(int i = 0; i < 3; i++){
-    pinMode(pinLed[i], OUTPUT);
-  }
+  urusanWiFi.konek();
+  urusanIoT.konek();
+  urusanIoT.penangkapPesan(penangkapPesan);
+  urusanIoT.subscribe("tld/namaorganisasi/namadivisi");
 
-  if(!LittleFS.begin(true)){
-    Serial.println("An Error has occurred while mounting SPIFFS");
-    return;
-  }
-
-  WiFi.onEvent(onWiFiConnected, ARDUINO_EVENT_WIFI_STA_CONNECTED);
-  WiFi.onEvent(onWiFiDisconnected, ARDUINO_EVENT_WIFI_STA_DISCONNECTED);
-  WiFi.onEvent(onWiFiGotIP, ARDUINO_EVENT_WIFI_STA_GOT_IP);
-  myWiFi.addAP(ssid, pass);
-  
-  /*myWeb.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-      request->send(200, "text/plain", "Hello, world");
-  });*/
-
-  myWeb.serveStatic("/", LittleFS, "/www/").setDefaultFile("index.html");
-
-  while (myWiFi.run() != WL_CONNECTED){
-    Serial.print(".");
-    delay(100);
-  }
-
-  myWeb.begin();
-  myWs.onEvent(onWsEvent);
-  myWeb.addHandler(&myWs);
+  penjadwal.init();
+  penjadwal.addTask(task1);
+  task1.enable();
 }
 
-unsigned long SCHEDULER_WS_ROUTINE = 0;
-unsigned long SCHEDULER_EXECUTE_ROUTINE = 0;
+void loop() {
+  // put your main code here, to run repeatedly:
+  urusanIoT.proses();
+
+  if(urusanWiFi.apakahKonek() == 1 && urusanIoT.apakahKonek() == 0){
+    urusanIoT.konek();
+  }
+
+  penjadwal.execute();
+}
+
+/// @brief Fungsi callback dari fungsi subscribe objek urusanIoT
+/// @param topic 
+/// @param message 
+void penangkapPesan(String topic, String message){
+  Serial.printf("penangkapPesan: topic: %s | message: %s\n", topic.c_str(), message.c_str());
+}
+
+/// @brief Fungsi callback dari task1
+void task1DetailTugas(){
+  if(urusanIoT.apakahKonek() == 1){
+    urusanIoT.publish("tld/namaorganisasi", "namadivisi");
+  }
+}
