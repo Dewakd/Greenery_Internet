@@ -21,7 +21,7 @@ void setup() {
   urusanWiFi.konek();
   urusanIoT.konek();
   urusanIoT.penangkapPesan(penangkapPesan);
-  urusanIoT.subscribe("tld/namaorganisasi/namadivisi");
+  urusanIoT.subscribe("id/greenet/fertigationreservoiragent");
 
   penjadwal.init();
   penjadwal.addTask(task1);
