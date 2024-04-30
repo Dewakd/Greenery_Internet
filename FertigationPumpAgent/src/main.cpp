@@ -49,6 +49,6 @@ void penangkapPesan(String topic, String message){
 /// @brief Fungsi callback dari task1
 void task1DetailTugas(){
   if(urusanIoT.apakahKonek() == 1){
-    urusanIoT.publish("id/greenet/fergationpumpagent");
+    urusanIoT.publish("id/greenet/fergationpumpagent", "fergationpumpagent");
   }
 }
