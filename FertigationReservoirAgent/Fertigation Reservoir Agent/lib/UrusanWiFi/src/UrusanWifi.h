@@ -1,23 +1,23 @@
 #ifndef UrusanWiFi_h
 #define UrusanWiFi_h
 
-#include <Arduino.h> // Sertakan senjata Arduino core
-#include <WiFi.h> // Sertakan senjata WiFi
+#include <Arduino.h> // Include Arduino core functionalities
+#include <WiFi.h>
 
-/// @brief Kelas untuk menangani segala urusan WiFi.
+
 class UrusanWiFi {
 public:
-  /// @brief Inisiator kelas UrusanWiFi
-  /// @param ssid 
-  /// @param pass 
+  // Constructor to initialize with SSID and password
   UrusanWiFi(const char* ssid, const char* pass);
   UrusanWiFi(const char* ssid);
 
+  // Methods provided by your UrusanWiFi library (replace with actual functions)
   void konek();
   bool apakahKonek();
+  // Add other relevant methods from your UrusanWiFi library
 
 private:
-
+  // Private members specific to your UrusanWiFi library implementation
   const char* _ssid;
   const char* _pass;
 
