@@ -5,7 +5,6 @@
 .vscode/ipch
 **/secret.h
 **/cfg.json
-platformio.ini
 *.log
 **/*.log
 extensions.json
