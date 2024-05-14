@@ -84,7 +84,7 @@ void task1DetailTugas(){
 
       serializeJson(data, muatan);
 
-      urusanIoT.publish("id/greenet/MicroclimateConditionAgent", muatan);
+      urusanIoT.publish("tld/namaorganisasi/namadivisi", muatan);
     }
   }
 }

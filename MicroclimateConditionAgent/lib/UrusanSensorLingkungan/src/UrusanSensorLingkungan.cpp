@@ -1,90 +1,47 @@
-#include <Arduino.h>
-#include <Wire.h>
-#include <SPI.h>
-#include <MQTT.h>
-#include <UrusanWiFi.h>
-#include <UrusanIoT.h>
-#include "secret.h"
-#include <TaskScheduler.h>
-#include <UrusanSensorLingkungan.h>
-#include <ArduinoJson.h>
+#include "UrusanSensorLingkungan.h"
 
+UrusanSensorLingkungan::UrusanSensorLingkungan() : sht31() {}
 
-void penangkapPesan(String topic, String message);
-void task1DetailTugas();
-void subscribeTopik();
-
-UrusanWiFi urusanWiFi(ssid, pass);
-UrusanIoT urusanIoT(broker, port, id, brokerUsername, brokerPassword);
-UrusanSensorLingkungan urusanSensorLingkungan;
-Scheduler penjadwal;
-
-Task task1(3000, TASK_FOREVER, &task1DetailTugas);
-
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(115200);
-
-  urusanWiFi.konek();
-  while(urusanWiFi.apakahKonek() == 0){
-    Serial.print(".");
-    delay(1000);
-  }
-  urusanIoT.konek();
-  while(urusanIoT.apakahKonek() == 0){
-    Serial.print(".");
-    delay(1000);
-  }
-  
-  urusanIoT.penangkapPesan(penangkapPesan);
-  if(urusanIoT.apakahKonek() == 1){
-    subscribeTopik();
-  }
-
-  urusanSensorLingkungan.mulai();
-
-  penjadwal.init();
-  penjadwal.addTask(task1);
-  task1.enable();
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-  urusanIoT.proses();
-
-  if(urusanWiFi.apakahKonek() == true && urusanIoT.apakahKonek() == false){
-    urusanIoT.konek();
-    if(urusanIoT.apakahKonek() == 1){
-      subscribeTopik();
+/// @brief Fungsi untuk menginisialisasi sensor lingkungan
+/// @return true jika sensor siap, false jika sensor bermasalah
+bool UrusanSensorLingkungan::mulai(){
+    if(sht31.begin(0x44)){
+        sensorSiap = true;
+        Serial.printf("UrusanSensorLingkungan: Modul sensor lingkungan siap digunakan.\n");
+        return true;
+    }else{
+        sensorSiap = false;
+        Serial.printf("UrusanSensorLingkungan: Gagal menemukan dan mengaktifkan modul sensor lingkungan!\n");
+        return false;
     }
-  }
-
-  penjadwal.execute();
 }
 
-void subscribeTopik(){
-  urusanIoT.subscribe("tld/namaorganisasi/namadivisi/setelan");
-}
-
-void penangkapPesan(String topic, String message){
-  Serial.printf("penangkapPesan: topic: %s | message: %s\n", topic.c_str(), message.c_str());
-}
-
-void task1DetailTugas(){
-  if(urusanIoT.apakahKonek() == true){
-    if(urusanSensorLingkungan.apakahSensorSiap() == true){
-      float suhu = urusanSensorLingkungan.bacaSuhu();
-      float kelembapan = urusanSensorLingkungan.bacaKelembapan();
-
-      JsonDocument data;
-      char muatan[512];
-
-      data["suhu"] = suhu;
-      data["kelembapan"] = kelembapan;
-
-      serializeJson(data, muatan);
-
-      urusanIoT.publish("tld/namaorganisasi/namadivisi", muatan);
+/// @brief Fungsi untuk membaca suhu lingkungan
+/// @return float dalam format celsius
+float UrusanSensorLingkungan::bacaSuhu(){
+    if(sensorSiap){
+        return sht31.readTemperature();
+    }else{
+        return 0.0;
     }
-  }
+}
+
+/// @brief Fungsi untuk membaca kelembapan lingkungan
+/// @return float dalam format % relatif
+float UrusanSensorLingkungan::bacaKelembapan(){
+    if(sensorSiap){
+        return sht31.readHumidity();
+    }else{
+        return 0.0;
+    }
+}
+
+/// @brief Fungsi untuk membaca status kesiapan sensor lingkungan
+/// @return true jika sensor siap, false jika tidak
+bool UrusanSensorLingkungan::apakahSensorSiap(){
+    if(sensorSiap){
+        return true;
+    }else{
+        return false;
+    }
 }
