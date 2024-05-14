@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/File Wahyu/Tugas Smester 4/IOT (Pak Adit)/Greenery_Internet/MicroclimateAdjusterAgent/src",
-      "program": "d:/File Wahyu/Tugas Smester 4/IOT (Pak Adit)/Greenery_Internet/MicroclimateAdjusterAgent/src/build/Debug/outDebug",
+      "cwd": "d:/File Wahyu/Tugas Smester 4/IOT (Pak Adit)/Greenery_Internet/MicroclimateAdjusterAgent",
+      "program": "d:/File Wahyu/Tugas Smester 4/IOT (Pak Adit)/Greenery_Internet/MicroclimateAdjusterAgent/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
