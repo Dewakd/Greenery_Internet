@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Smart Farming Dashboard</title>
+    <link rel="stylesheet" href="pico.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="mqttws31.js"></script>
+</head>
+<body>
+    <main class="container">
+        <nav>
+            <ul>
+                <li><h1><strong>Smart Farming Realtime Dashboard</strong></h1></li>
+            </ul>
+        </nav>
+        <header>
+            <h6>Status: <span id="statusKoneksi" class="green">-</span></h6>
+            <blockquote>
+                "Pertanian cerdas bukanlah sekadar mengganti cangkul dengan mesin bersensor, tetapi tentang menanam benih inovasi untuk masa depan pangan yang berkelanjutan."
+                <footer>
+                  <cite>- Powered by MQTT over WebSocket</cite>
+                </footer>
+            </blockquote>
+            <hr>
+            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSOODqYUYjGJbiqNEEDg2W4khOwK7fMmEb0u0JsjLkSot1YA5_gdbseQCHx6bYlruvrmGq8HKxFPfpG/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+        </header>
+        <article>
+            <div class="grid"><h3><center>Kontrol Pompa Fertigasi</center></h3></div>
+            <div class="grid">
+                <div class="tank-container">
+                    <div class="grid">
+                        <div class="tank">
+                            <div id="statusPompaFertigasi" class="red">Pompa OFF</div>
+                            <div class="water" id="water"></div>
+                        </div>
+                        <div class="controls">
+                            <button id="switchPompaFertigasiOn">Nyalakan Pompa Fertigasi</button>
+                            <button id="switchPompaFertigasiOff">Padamkan Pompa Fertigasi</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <article>
+            <div class="grid"><h3><center>Kontrol Mikroklimat</center></h3></div>
+            <div id="statusBlower" class="red">Blower OFF</div>
+            <div class="grid">
+                <div>Kekuatan Blower <input type="range" min="0" max="100" value="0" class="slider" id="sliderKekuatanBlower"></div>
+                <div class="select-wrapper">
+                    <select id="arahBlower">
+                      <option value="-">Pilih Arah</option>
+                      <option value="0">Hisap</option>
+                      <option value="1">Semprot</option>
+                    </select>
+                    <div class="select-options"></div> 
+                </div>
+            </div>
+            <div class="grid">
+                <button id="switchBlowerOn">Nyalakan Blower</button>
+                <button id="switchBlowerOff">Padamkan Blower</button>
+                <button id="switchBlowerAnginTopan">Angin Topan</button>
+            </div>
+        </article>
+        <div class="grid">
+            <article>
+                <div class="card-header">
+                    <h6>🌡️ Suhu</h6>
+                </div>
+                <div class="card-body">
+                    <h1><span id="suhu"></span> °C</h1>
+                </div>
+            </article>
+            <article>
+                <div class="card-header">
+                    <h6>💧 Kelembapan</h6>
+                </div>
+                <div class="card-body">
+                    <h1><span id="kelembapan"></span> %</h1>
+                </div>
+            </article>
+        </div>
+        <footer>
+            <hr>
+            &copy; 2024 Program Studi Teknologi Informasi (PSTI) Undiknas
+        </footer>
+    </main>
+</body>
+</html>

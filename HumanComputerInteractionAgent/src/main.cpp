@@ -7,6 +7,9 @@
 #include <TaskScheduler.h>
 #include <UrusanLayar.h>
 #include <ArduinoJson.h>
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#include <SPIFFS.h>
 
 
 void penangkapPesan(String topic, String message);
@@ -18,6 +21,7 @@ UrusanWiFi urusanWiFi(ssid, pass);
 UrusanIoT urusanIoT(broker, port, id, brokerUsername, brokerPassword);
 UrusanLayar urusanLayar;
 Scheduler penjadwal;
+AsyncWebServer myWeb(80);
 
 Task task1(3000, TASK_FOREVER, &task1DetailTugas);
 Task task2(5000, TASK_FOREVER, &task2DetailTugas);
@@ -25,6 +29,11 @@ Task task2(5000, TASK_FOREVER, &task2DetailTugas);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
+
+  if(!SPIFFS.begin(true)){
+    Serial.println("Gagal memuat file system SPIFFS!");
+    return;
+  }
 
   urusanWiFi.konek();
   urusanIoT.konek();
@@ -41,6 +50,9 @@ void setup() {
   penjadwal.addTask(task2);
   task1.enable();
   task2.enable();
+
+  myWeb.serveStatic("/", SPIFFS, "/www/").setDefaultFile("index.html");
+  myWeb.begin();  
 }
 
 void loop() {
@@ -72,6 +84,12 @@ void penangkapPesan(String topic, String message){
 
       
     }
+
+    if(dataMasuk["suhu"] != nullptr && dataMasuk["kelembapan"] != nullptr){
+      float suhu = dataMasuk["suhu"].as<float>();
+      float kelembapan = dataMasuk["kelembapan"].as<float>();
+      urusanLayar.updateTemperatureAndHumidity(suhu, kelembapan);
+    }
     
   }
   else{
@@ -85,7 +103,7 @@ void task1DetailTugas(){
     char muatan[512];
     //...
     serializeJson(data, muatan);
-    urusanIoT.publish("tld/namaorganisasi/namadivisi", muatan);
+    urusanIoT.publish("id/greenet/humancomputerinteractionagent", muatan);
   
   }
 }
