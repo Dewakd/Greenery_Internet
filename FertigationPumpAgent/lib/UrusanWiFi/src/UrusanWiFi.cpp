@@ -3,7 +3,6 @@
 UrusanWiFi::UrusanWiFi(const char* ssid, const char* pass) : _ssid(ssid), _pass(pass) {}
 UrusanWiFi::UrusanWiFi(const char* ssid) : _ssid(ssid) {}
 
-/// @brief Fungsi untuk memulai konek ke WiFi
 void UrusanWiFi::konek() {
   Serial.printf("UrusanWiFi: Mencoba konek ke %s...\n", _ssid);
   
@@ -37,10 +36,9 @@ bool UrusanWiFi::apakahKonek() {
 
 }
 
-/// @brief Fungsi private untuk menangani event WiFi
-/// @param event 
-/// @param info 
 void UrusanWiFi::onWiFiEvent(WiFiEvent_t event, WiFiEventInfo_t info) {
+  // Implement your event handling logic here
+  // For example, you can print event details
   if(event == ARDUINO_EVENT_WIFI_STA_DISCONNECTED){
     Serial.printf("UrusanWiFi: Koneksi dengan %s terputus!\n", info.wifi_sta_connected.ssid);
   }
