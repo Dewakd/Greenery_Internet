@@ -23,14 +23,16 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
 
-  urusanWiFi.konek();
-  urusanIoT.konek();
-  urusanIoT.penangkapPesan(penangkapPesan);
+  urusanWiFi.konek(); // menghubungkan wifi
+  urusanIoT.konek(); // menghubungkan ke broker MQTT
+  urusanIoT.penangkapPesan(penangkapPesan); // call back untuk pesan MQTT 
 
-  if(urusanIoT.apakahKonek() == 1){
+// Ngecek apakah terhubung ke broker MQTT dan mensubscribe topik
+  if(urusanIoT.apakahKonek() == 1){ 
     subscribeTopik();
   }
 
+// mengkonfigurasi Aktuator
   urusanAktuatorLingkungan.mulai();
 
   penjadwal.init();
@@ -63,43 +65,44 @@ void penangkapPesan(String topic, String message){
   DeserializationError galatParseJson = deserializeJson(dataMasuk, message);
   if(galatParseJson == DeserializationError::Ok){
     if(dataMasuk["perintah"] != nullptr){
-      String perintah = dataMasuk["perintah"].as<String>();
+      String perintah = dataMasuk["perintah"].as<String>(); //mengambil nilai perintah jika ada
 
-      if(perintah == String("nyalakan")){
-        if( dataMasuk["arah"] != nullptr && dataMasuk["kekuatan"] != nullptr){
-          bool arah = dataMasuk["arah"].as<bool>();
-          uint8_t kekuatan = dataMasuk["kekuatan"].as<uint8_t>();
-          urusanAktuatorLingkungan.nyalakan(kekuatan, arah);
+      if(perintah == String("nyalakan")){ // jika perintah nyalakan
+        if( dataMasuk["arah"] != nullptr && dataMasuk["kekuatan"] != nullptr){ //jika terdapat arah dan kekuatan ada
+          bool arah = dataMasuk["arah"].as<bool>(); // mengambil nilai arah
+          uint8_t kekuatan = dataMasuk["kekuatan"].as<uint8_t>(); // mengambil nilai kekuatan
+          urusanAktuatorLingkungan.nyalakan(kekuatan, arah); // nyalakan sesuai dengan perintah
         }
       }
-      else if(perintah == String("anginTopan")){
-        if( dataMasuk["arah"] != nullptr){
-          bool arah = dataMasuk["arah"].as<bool>();
-          urusanAktuatorLingkungan.anginTopan(arah);
+      else if(perintah == String("anginTopan")){ // jika ada perintah angin topan
+        if( dataMasuk["arah"] != nullptr){ // jika terdapat arah
+          bool arah = dataMasuk["arah"].as<bool>(); // mengambil nilai arah
+          urusanAktuatorLingkungan.anginTopan(arah); // menyalakan mode angin topan
         }
       }
-      else if(perintah == String("padamkan")){
-        urusanAktuatorLingkungan.padamkan();
+      else if(perintah == String("padamkan")){ // jika ada perintah padamkan
+        urusanAktuatorLingkungan.padamkan(); // memadamkan aktuator
       }
     }
     
   }
   else{
-    Serial.println("penangkapPesan: Format pesan tidak valid! Gunakan format JSON.");
+    Serial.println("penangkapPesan: Format pesan tidak valid! Gunakan format JSON."); // Mencetak pesan error jika format JSON tidak valid
   }
 }
 
 void task1DetailTugas(){
-  if(urusanIoT.apakahKonek() == true){
-    JsonDocument data;
-    char muatan[512];
+  if(urusanIoT.apakahKonek() == true){ // jika terhubung ke broker MQTT
+    JsonDocument data; // membuat file json
+    char muatan[512]; // buffer muatan
 
-    data["arah"] = urusanAktuatorLingkungan.bacaArah();
-    data["kekuatan"] = urusanAktuatorLingkungan.bacaKekuatan();
+    data["arah"] = urusanAktuatorLingkungan.bacaArah(); // Membaca arah aktuator dan menyimpan ke JSON
+    data["kekuatan"] = urusanAktuatorLingkungan.bacaKekuatan(); // Membaca kekuatan aktuator dan menyimpan ke JSON
+    data["status"] = urusanAktuatorLingkungan.bacaStatus(); // Membaca status
 
-    serializeJson(data, muatan);
+    serializeJson(data, muatan); // Mengubah dokumen JSON menjadi string
 
-    urusanIoT.publish("id/greenet/microclimateadjusteragent", muatan);
+    urusanIoT.publish("id/greenet/microclimateadjusteragent", muatan); // Mempublikasikan muatan JSON ke topik MQTT
   
   }
 }

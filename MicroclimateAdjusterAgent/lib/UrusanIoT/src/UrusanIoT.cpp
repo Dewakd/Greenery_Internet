@@ -14,14 +14,14 @@ UrusanIoT::UrusanIoT(const char* broker, const int port, const char* clientId,
 
 /// @brief Konek ke MQTT Broker
 void UrusanIoT::konek(){
-    if(WiFi.status() != WL_CONNECTED){
-      Serial.printf("UrusanIoT: Tidak ada koneksi!\n");
+    if(WiFi.status() != WL_CONNECTED){ // Memeriksa status koneksi wifi
+      Serial.printf("UrusanIoT: Tidak ada koneksi!\n"); // Mencetak pesan jika tidak ada koneksi WiFi
       delay(1000);
       return;
     }
-    Serial.printf("UrusanIoT: Mencoba untuk konek ke %s:%d\n", _broker, _port);
+    Serial.printf("UrusanIoT: Mencoba untuk konek ke %s:%d\n", _broker, _port); // Mencetak pesan percobaan koneksi ke broker
     client.begin(_broker, _port, net);
-    bool status = client.connect(_clientId, _brokerUsername, _brokerPassword);
+    bool status = client.connect(_clientId, _brokerUsername, _brokerPassword); // Mencoba menghubungkan ke broker dengan ID klien, username, dan password
 
     unsigned long timer = millis();
     while(!status){
@@ -38,12 +38,12 @@ void UrusanIoT::konek(){
 
 /// @brief Cek apakah IoTnya konek.
 /// @return 1 jika konek, 0 jika putus
-bool UrusanIoT::apakahKonek() {
+bool UrusanIoT::apakahKonek() { // Memeriksa apakah klien terhubung ke broker
   if (client.connected()){
-    return 1;
+    return 1; // jika terhubung
   }
   else {
-    return 0;
+    return 0; // jika tidak terhubung
   }
 }
 
@@ -63,13 +63,13 @@ void UrusanIoT::penangkapPesan(MQTTClientCallbackSimpleFunction penangkapPesan){
 /// @param topic 
 /// @param message 
 void UrusanIoT::publish(String topic, String message){
-  Serial.printf("UrusanIoT: Mempublish pesan: %s, ke topik: %s.\n", message.c_str(), topic.c_str());
-  client.publish(topic.c_str(), message.c_str());
+  Serial.printf("UrusanIoT: Mempublish pesan: %s, ke topik: %s.\n", message.c_str(), topic.c_str()); // Mencetak pesan yang akan dipublikasikan dan topiknya
+  client.publish(topic.c_str(), message.c_str()); // Mempublikasikan pesan ke topik yang ditentukan
 }
 
 /// @brief Subscribe topik dari broker
 /// @param topic 
 void UrusanIoT::subscribe(String topic){
-  Serial.printf("UrusanIoT: Mensubsribe topik: %s.\n", topic.c_str());
-  client.subscribe(topic.c_str());
+  Serial.printf("UrusanIoT: Mensubsribe topik: %s.\n", topic.c_str()); // Mencetak pesan topik yang akan disubscribe
+  client.subscribe(topic.c_str()); // Mensubscribe ke topik yang ditentukan
 }
