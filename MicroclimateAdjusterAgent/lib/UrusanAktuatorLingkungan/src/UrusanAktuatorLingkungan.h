@@ -12,6 +12,8 @@ class UrusanAktuatorLingkungan {
         float bacaKekuatan();
         float bacaArah();
         bool bacaStatus();
+        void setArah(bool arah);
+        void setKekuatan(uint8_t kekuatan);
         void anginTopan(bool arah);
     
     private:

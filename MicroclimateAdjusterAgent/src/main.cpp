@@ -83,6 +83,18 @@ void penangkapPesan(String topic, String message){
       else if(perintah == String("padamkan")){ // jika ada perintah padamkan
         urusanAktuatorLingkungan.padamkan(); // memadamkan aktuator
       }
+      else if(perintah == String("setArah")){
+        if(dataMasuk["arah"] != nullptr){
+          bool arah = dataMasuk["arah"].as<bool>();
+          urusanAktuatorLingkungan.setArah(arah);
+        }
+      }
+      else if(perintah == String("setKekuatan")){
+        if(dataMasuk["kekuatan"] != nullptr){
+          bool kekuatan = dataMasuk["kekuatan"].as<uint8_t>();
+          urusanAktuatorLingkungan.setKekuatan(kekuatan);
+        }
+      }
     }
     
   }

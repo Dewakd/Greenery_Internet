@@ -40,6 +40,14 @@ float UrusanAktuatorLingkungan::bacaKekuatan(){
     return _kekuatan;
 }
 
+void UrusanAktuatorLingkungan::setArah(bool arah){
+    _arah = arah;
+}
+
+void UrusanAktuatorLingkungan::setKekuatan(uint8_t kekuatan){
+    _kekuatan = kekuatan;
+}
+
 bool UrusanAktuatorLingkungan::bacaStatus(){
     return _status;
 }
