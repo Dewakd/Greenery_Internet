@@ -86,12 +86,14 @@ void penangkapPesan(String topic, String message){
       else if(perintah == String("setArah")){
         if(dataMasuk["arah"] != nullptr){
           bool arah = dataMasuk["arah"].as<bool>();
+          Serial.printf("setArah: %d \n", arah);
           urusanAktuatorLingkungan.setArah(arah);
         }
       }
       else if(perintah == String("setKekuatan")){
         if(dataMasuk["kekuatan"] != nullptr){
-          bool kekuatan = dataMasuk["kekuatan"].as<uint8_t>();
+          uint8_t kekuatan = dataMasuk["kekuatan"].as<uint8_t>();
+          Serial.printf("setKekuatan: %d \n", kekuatan);
           urusanAktuatorLingkungan.setKekuatan(kekuatan);
         }
       }
