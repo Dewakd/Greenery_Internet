@@ -14,7 +14,7 @@ void UrusanLayar::mulai() {
         while(1);
     }
     display.clearDisplay();
-    display.setTextSize(3);
+    display.setTextSize(1);
     display.setTextColor(SSD1306_WHITE);
     display.setCursor(0, 0);
     display.display();
@@ -32,7 +32,7 @@ void UrusanLayar::updateTemperatureAndHumidity(float temperature, float humidity
     display.display();
 }
 
-void UrusanLayar::updateFanStatus(int speed, bool isUpDirection) {
+void UrusanLayar::updateFanStatus(int speed, bool isUpDirection, bool status) {
     display.clearDisplay();
     display.setCursor(0, 0);
     display.print("Kec. Kipas: ");
@@ -40,6 +40,8 @@ void UrusanLayar::updateFanStatus(int speed, bool isUpDirection) {
     display.println("%");
     display.print("Arah: ");
     display.println(isUpDirection ? "Up" : "Down");
+    display.print("Status: ");
+    display.println(status? "On" : "Off");
     display.display();
 }
 

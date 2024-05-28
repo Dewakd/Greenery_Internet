@@ -39,6 +39,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     //Penangan Pesan MAA
+    if (message.destinationName == "id/greenet/MicroclimateConditionAgent/setelan") {
+      divStatusBlower = document.getElementById("statusBlower");
+      divArahBlower = document.getElementById("arahBlower");
+      divSliderKekuatanBlower = document.getElementById("sliderKekuatanBlower");
+
+      var data = JSON.parse(message.payloadString);
+      console.log(data.perintah);
+      if (data.perintah != null && data.perintah == "setKekuatan") {
+        divSliderKekuatanBlower.value = data.kekuatan;
+      } else if (data.perintah != null && data.perintah == "setArah") {
+        divArahBlower.value = data.arah;
+      }
+    }
+
     if (message.destinationName == "id/greenet/MicroclimateConditionAgent") {
       var data = JSON.parse(message.payloadString);
 
@@ -131,8 +145,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.getElementById("sliderKekuatanBlower").addEventListener("change", function () {
     // Code to handle the change event for Slider 1
-    console.log("Slider 1 changed");
-    socket.send('{"slider":1,"brightness":' + this.value + "}");
+    console.log("Kekuatan blower diset ke: " + this.value);
+    var perintah = {
+      perintah: "setKekuatan",
+      kekuatan: this.value,
+    };
+    kirimPesan(perintah, "id/greenet/microclimateadjusteragent/setelan");
+  });
+
+  document.getElementById("arahBlower").addEventListener("change", function () {
+    // Code to handle the change event for Slider 1
+    console.log("Arah blower diset ke: " + this.value);
+    var perintah = {
+      perintah: "setKekuatan",
+      arah: this.value,
+    };
+    kirimPesan(perintah, "id/greenet/microclimateadjusteragent/setelan");
   });
 
   function setWaterLevel(level) {

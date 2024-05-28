@@ -71,7 +71,9 @@ void loop() {
 
 void subscribeTopik(){
   urusanIoT.subscribe("id/greenet/humancomputerinteractionagent/setelan");
+  urusanIoT.subscribe("id/greenet/microclimateadjusteragent");
 }
+
 
 void penangkapPesan(String topic, String message){
   Serial.printf("penangkapPesan: topic: %s | message: %s\n", topic.c_str(), message.c_str());
@@ -89,6 +91,14 @@ void penangkapPesan(String topic, String message){
       float suhu = dataMasuk["suhu"].as<float>();
       float kelembapan = dataMasuk["kelembapan"].as<float>();
       urusanLayar.updateTemperatureAndHumidity(suhu, kelembapan);
+    }
+
+    if(dataMasuk["kekuatan"] != nullptr && dataMasuk["arah"] != nullptr && dataMasuk["status"] != nullptr){
+      int speed = dataMasuk["kekuatan"].as<int>();
+      bool arah = dataMasuk["arah"].as<bool>();
+      bool status = dataMasuk["status"].as<bool>();
+      urusanLayar.updateFanStatus(speed, arah, status);
+      Serial.println(status);
     }
     
   }
@@ -116,7 +126,7 @@ void task2DetailTugas(){
     urusanLayar.updateTemperatureAndHumidity(29, 80);
   }
   else if(nomorSlider == 2){
-    urusanLayar.updateFanStatus(100, 1);
+    urusanLayar.updateFanStatus(100,0,0);
   }
   else if(nomorSlider == 3){
     urusanLayar.updateWaterReservoir(80);

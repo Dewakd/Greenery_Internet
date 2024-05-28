@@ -11,7 +11,7 @@ class UrusanLayar {
         UrusanLayar();
         void mulai();
         void updateTemperatureAndHumidity(float temperature, float humidity);
-        void updateFanStatus(int speed, bool isUpDirection);
+        void updateFanStatus(int speed, bool isUpDirection, bool status);
         void updateWaterReservoir(float level);
         void updatePumpStatus(bool isOn);
     
